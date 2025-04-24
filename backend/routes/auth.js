@@ -5,7 +5,7 @@ const pool = require('../db/db');
 const router = express.Router();
 require('dotenv').config();
 
-//Register
+// Register
 router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
 
