@@ -1,7 +1,29 @@
+'use client'
 import Link from 'next/link';
 import Image from 'next/image';
+import {useState} from 'react';
 
 export default function RegisterPage() {
+const [email,setEmail] = useState('');
+const [username,setUsername] = useState('');
+const [password,setPassword] = useState('');
+
+const handleSubmit = async (e) => {
+  e.preventDefault()
+
+  const res= await fetch('http://localhost:3001/api/auth/register',{
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body:JSON.stringify({ username, email, password }),
+  });
+  const data = await res.json();
+  alert(data.error || data.mensaje);
+}
+
+
+
+
+console.log(username)
   return (
     <div className="flex flex-col min-h-screen">
       <header>
@@ -54,27 +76,33 @@ export default function RegisterPage() {
           </h1>
         </div>
         <div className="flex-grow flex items-center justify-center md:mb-30">
-          <form className="w-full max-w-md p-6 rounded-xl shadow-xl space-y-4 mx-4 bg-white">
+          <form onSubmit={handleSubmit} className="w-full max-w-md p-6 rounded-xl shadow-xl space-y-4 mx-4 bg-white">
             <div className="text-center space-y-4">
               <h2 className="text-4xl font-bold text-black">Regístrate para tener total acceso</h2>
             </div>
             <input
-              type="text"
+              type="email"
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
               className="w-full border rounded-xl px-3 py-2 border-black text-black"
             />
-            <input
+           <input
               type="text"
+              value={username}
               placeholder="Usuario"
+              onChange={(e) => setUsername(e.target.value)}
               className="w-full border rounded-xl px-3 py-2 border-black text-black"
             />
             <input
               type="password"
+              value={password}
               placeholder="Contraseña"
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full border rounded-xl px-3 py-2 border-black text-black"
             />
             <div>
-              <p className="">¿Ya eres de los nuestros?</p>
+              <p className="text-black">¿Ya eres de los nuestros?</p>
                 <Link href="/login" className="text-blue-400 hover:text-blue-700 cursor-pointer">Inicia sesión aquí</Link>
             </div>
             <button

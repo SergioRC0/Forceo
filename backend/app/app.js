@@ -15,17 +15,12 @@ app.use(cors({// <- habilita peticiones desde otros orígenes
   credentials:true,
 }))
 
-app.use(express.json());
+app.use(express.json()); //MIDDLEWARE TO PARSE JSON 
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/users', usuariosRouter);
 
-app.listen(3001, () => {
-  console.log('Servidor corriendo en http://localhost:3001');
-});
-
-
-
+module.exports = app;
 
 
 

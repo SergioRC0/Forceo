@@ -9,9 +9,9 @@ datasource db {
 }
 
 model comment {
-  id           Int            @id @default(autoincrement())
-  post_id      Int
-  user_id      Int
+  id           String         @id @default(uuid())
+  post_id      String
+  user_id      String
   content      String
   like_count   Int?           @default(0)
   created_at   DateTime?      @default(now()) @db.Timestamp(6)
@@ -21,9 +21,9 @@ model comment {
 }
 
 model comment_like {
-  id         Int       @id @default(autoincrement())
-  user_id    Int
-  comment_id Int
+  id         String    @id @default(uuid())
+  user_id    String
+  comment_id String
   created_at DateTime? @default(now()) @db.Timestamp(6)
   comment    comment   @relation(fields: [comment_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   user       user      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
@@ -32,8 +32,8 @@ model comment_like {
 }
 
 model post {
-  id         Int         @id @default(autoincrement())
-  user_id    Int
+  id         String      @id @default(uuid())
+  user_id    String
   title      String      @db.VarChar(255)
   content    String
   like_count Int?        @default(0)
@@ -44,9 +44,9 @@ model post {
 }
 
 model post_like {
-  id         Int       @id @default(autoincrement())
-  user_id    Int
-  post_id    Int
+  id         String    @id @default(uuid())
+  user_id    String
+  post_id    String
   created_at DateTime? @default(now()) @db.Timestamp(6)
   post       post      @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   user       user      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
@@ -55,7 +55,7 @@ model post_like {
 }
 
 model user {
-  id            Int            @id @default(autoincrement())
+  id            String         @id @default(uuid())
   username      String         @unique @db.VarChar(50)
   email         String         @unique @db.VarChar(150)
   password_hash String
