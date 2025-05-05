@@ -64,4 +64,14 @@ model user {
   comment_like  comment_like[]
   post          post[]
   post_like     post_like[]
+  refreshTokens RefreshToken[]
+}
+
+model RefreshToken {
+  id         String   @id @default(uuid())
+  token      String   @unique
+  user       user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  created_at DateTime @default(now())
+  expires_at DateTime
 }

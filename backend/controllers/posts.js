@@ -1,8 +1,8 @@
-const express = require('express');
-const pool = require('../db/db');
+/* const express = require('express');
+
 const router = express.Router();
 
-// 📰 Mostrar todos los posts con autor
+//  Mostrar todos los posts con autor
 router.get('/', async (req, res) => {
   try {
     const result = await pool.query(`
@@ -25,4 +25,4 @@ router.get('/', async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = router; */

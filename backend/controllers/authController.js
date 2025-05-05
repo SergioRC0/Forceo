@@ -1,17 +1,17 @@
 // src/controllers/authController.js
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import prisma from '../lib/prisma.js';
-import dotenv from 'dotenv';
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const prisma = require('../lib/prisma');
+const dotenv = require('dotenv');
+const randtoken = require('rand-token');
+const { findUserByEmailOrUsername } = require('../utils/authUtils');
 
 dotenv.config();
 
-export const registerUser = async (req, res) => {
-  console.log('Datos recibidos desde el cliente: ',req.body);
+const registerUser = async (req, res) => {
   const { username, email, password } = req.body;
 
-  if (!username || !email || !password)
-    return res.status(400).json({ error: 'Faltan campos' });
+  console.log('Datos recibidos desde el cliente: ', req.body);
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -40,29 +40,76 @@ export const registerUser = async (req, res) => {
   }
 };
 
-export const loginUser = async (req, res) => {
-  const { email, password } = req.body;
-
-  if (!email || !password)
-    return res.status(400).json({ error: 'Faltan campos' });
+const loginUser = async (req, res) => {
+  const { emailOrUsername, password } = req.body;
+  
 
   try {
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
+    const user = await findUserByEmailOrUsername(emailOrUsername);
 
     if (!user) return res.status(401).json({ error: 'Credenciales inválidas' });
 
     const isMatch = await bcrypt.compare(password, user.password_hash);
     if (!isMatch) return res.status(401).json({ error: 'Credenciales inválidas' });
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: '1h',
+    const token = jwt.sign({ id: user.id}, process.env.JWT_SECRET, {expiresIn: '1h'});
+    
+    /* const refreshToken = randtoken.uid(256); //genera el token aleatorio
+    await saveRefreshToken(user.id, refreshToken); */
+
+    res.cookie('token', token, {
+      httpOnly: true,         //  No accesible desde JavaScript
+      secure: process.env.NODE_ENV === 'production', // Solo por HTTPS en producción
+      sameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'Lax',     // Bloquea CSRF desde otros sitios
+      maxAge: 3600000,        // 1 hora
     });
 
-    return res.json({ token });
+    return res.json({ mensaje: 'Login exitoso' });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Error en el servidor' });
   }
+};
+
+const logoutUser = (req, res) => {
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'Lax', 
+  });
+  res.json({ mensaje: 'Sesión cerrada correctamente' });
+};
+
+const getCurrentUser = async (req, res) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.id },
+      select: { id: true, username: true, email: true },
+    });
+
+    if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+
+    res.json({ user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error en el servidor' });
+  }
+};
+
+const getAllUsers = async (req,res) => {
+    try {
+      const users = await prisma.user.findMany();
+      res.json(users);
+    } catch (error) {
+      console.error('Error al obtener usuarios:', error);
+      res.status(500).json({ error: 'Error al obtener usuarios' });
+    }
+}
+
+module.exports = {
+  registerUser,
+  loginUser,
+  logoutUser,
+  getCurrentUser, 
+  getAllUsers
 };
