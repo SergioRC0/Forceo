@@ -175,7 +175,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "E:\\forceo\\backend\\generated\\prisma",
+      "value": "/Users/edupinorodriguez/Desktop/Forceo/backend/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -184,12 +184,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "darwin-arm64",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "E:\\forceo\\backend\\prisma\\schema.prisma",
+    "sourceFilePath": "/Users/edupinorodriguez/Desktop/Forceo/backend/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -207,7 +207,7 @@ const config = {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://postgres:SashuKi1n.2@localhost:5432/forceo"
+        "value": "postgresql://postgres@localhost:5432/forceo"
       }
     }
   },
