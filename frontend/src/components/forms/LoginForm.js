@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { useLogin } from '@/hooks/useAuth';
 import SubmitButton from '@/components/buttons/SubmitButton';
+import GoogleLoginButton from '@/components/buttons/GoogleLoginButton';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -57,6 +58,7 @@ export default function LoginForm() {
         ¿Has olvidado la contraseña?
       </p>
       <SubmitButton loading={loading}>'Iniciar sesión'</SubmitButton>
+      <GoogleLoginButton />
     </form>
   );
 }
