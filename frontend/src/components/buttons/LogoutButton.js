@@ -1,15 +1,17 @@
 'use client';
-import { handleLogout } from "@/handlers/handleLogoutSubmit";
-import { useRouter } from "next/navigation";
+
+import { useLogout } from '@/hooks/useAuth';
 
 export default function LogoutButton() {
-    const router = useRouter();
+  const { logout, loading } = useLogout();
   return (
     <button
-      className="mt-6 border px-4 py-2  text-white bg-black btn-hover"
-      onClick={() => handleLogout(router)} //de esta manera solo ejecutamos la funcion al hacer click
+      type="button"
+      onClick={logout}
+      disabled={loading}
+      className="w-full text-left text-sm px-2 py-1 hover:bg-gray-600 disabled:opacity-50"
     >
-      Cerrar sesión
+      {loading ? 'Cerrando sesión…' : 'Cerrar sesión'}
     </button>
   );
 }

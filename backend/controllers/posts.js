@@ -1,28 +1,63 @@
-/* const express = require('express');
+// src/controllers/posts.js
+const { CategoryType } = require('../generated/prisma'); // o desde '@prisma/client'
+const prisma = require('../lib/prisma');
 
-const router = express.Router();
-
-//  Mostrar todos los posts con autor
-router.get('/', async (req, res) => {
-  try {
-    const result = await pool.query(`
-      SELECT 
-        post.id,
-        post.title,
-        post.content,
-        post.like_count,
-        post.created_at,
-        "user".username AS author
-      FROM post
-      JOIN "user" ON post.user_id = "user".id
-      ORDER BY post.created_at DESC
-    `);
-
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Error al obtener los posts' });
+//lo de aqui lo tenemos protegido por el middleware
+const createPost = async (req, res) => {
+  const { category, title, content } = req.body;
+  const userId = req.user.id;
+  if (!userId) {
+    return res.status(401).json({ error: 'No autorizado' });
   }
-});
 
-module.exports = router; */
+  // Validación mínima: compruebo que 'category' es uno de los valores del enum
+  if (!Object.values(CategoryType).includes(category)) {
+    return res.status(400).json({
+      error: `Categoría inválida. Debe ser una de: ${Object.values(CategoryType).join(', ')}`,
+    });
+  }
+
+  try {
+    const post = await prisma.post.create({
+      data: {
+        user_id: userId,
+        category, // aquí uso directamente la cadena, Prisma la castea al enum
+        title,
+        content,
+      },
+      select: {
+        id: true,
+        user_id: true,
+        category: true,
+        title: true,
+        content: true,
+        created_at: true,
+      },
+    });
+
+    return res.status(201).json(post);
+  } catch (err) {
+    console.error('Error creando post:', err);
+    return res.status(500).json({ error: 'Error al crear el post' });
+  }
+};
+
+const listUserPosts = async (req, res) => {
+  const userId = req.user?.id;
+  if (!userId) return res.status(401).json({ error: 'No autorizado' });
+  const posts = await prisma.post.findMany({
+    where: { user_id: userId },
+    orderBy: { created_at: 'desc' },
+    include: {
+      user: { select: { id: true, username: true } },
+      post_likes: true,
+      comments: true, // por ejemplo, sólo el primer comentario
+    },
+  });
+  return res.json(posts);
+};
+
+module.exports = {
+  createPost,
+  listUserPosts,
+};

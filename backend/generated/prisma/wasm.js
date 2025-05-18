@@ -120,10 +120,35 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+<<<<<<< HEAD
+=======
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  username: 'username',
+  email: 'email',
+  password_hash: 'password_hash',
+  created_at: 'created_at'
+};
+
+exports.Prisma.PostScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  category: 'category',
+  title: 'title',
+  content: 'content',
+  like_count: 'like_count',
+  created_at: 'created_at'
+};
+
+>>>>>>> 0ede138cf367122e046da649e763d62b3469b32f
 exports.Prisma.CommentScalarFieldEnum = {
   id: 'id',
   post_id: 'post_id',
   user_id: 'user_id',
+<<<<<<< HEAD
+=======
+  parent_id: 'parent_id',
+>>>>>>> 0ede138cf367122e046da649e763d62b3469b32f
   content: 'content',
   like_count: 'like_count',
   created_at: 'created_at'
@@ -136,6 +161,7 @@ exports.Prisma.Comment_likeScalarFieldEnum = {
   created_at: 'created_at'
 };
 
+<<<<<<< HEAD
 exports.Prisma.PostScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
@@ -145,6 +171,8 @@ exports.Prisma.PostScalarFieldEnum = {
   created_at: 'created_at'
 };
 
+=======
+>>>>>>> 0ede138cf367122e046da649e763d62b3469b32f
 exports.Prisma.Post_likeScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
@@ -152,6 +180,7 @@ exports.Prisma.Post_likeScalarFieldEnum = {
   created_at: 'created_at'
 };
 
+<<<<<<< HEAD
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   username: 'username',
@@ -160,6 +189,8 @@ exports.Prisma.UserScalarFieldEnum = {
   created_at: 'created_at'
 };
 
+=======
+>>>>>>> 0ede138cf367122e046da649e763d62b3469b32f
 exports.Prisma.RefreshTokenScalarFieldEnum = {
   id: 'id',
   token: 'token',
@@ -182,6 +213,7 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+<<<<<<< HEAD
 
 
 exports.Prisma.ModelName = {
@@ -190,6 +222,20 @@ exports.Prisma.ModelName = {
   post: 'post',
   post_like: 'post_like',
   user: 'user',
+=======
+exports.CategoryType = exports.$Enums.CategoryType = {
+  BALONCESTO: 'BALONCESTO',
+  FUTBOL: 'FUTBOL',
+  TENIS: 'TENIS'
+};
+
+exports.Prisma.ModelName = {
+  User: 'User',
+  Post: 'Post',
+  Comment: 'Comment',
+  Comment_like: 'Comment_like',
+  Post_like: 'Post_like',
+>>>>>>> 0ede138cf367122e046da649e763d62b3469b32f
   RefreshToken: 'RefreshToken'
 };
 

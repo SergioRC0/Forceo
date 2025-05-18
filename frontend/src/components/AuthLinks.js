@@ -1,31 +1,34 @@
 'use client';
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function AuthLinks() {
   const pathName = usePathname();
-  const [mounted, setMounted] = useState(false); //problemas de Hydration porque no matcheaba el server con el cliente
 
-  useEffect(() => {       //con useEffect y useState espremos a que el componente se monte en el cliente tras el primer render
-    setMounted(true);
-  }, []);
-
-  // Evitamos render hasta que el componente esté montado para que el html no difiera
-  if (!mounted) return null;
-
-  if (pathName === "/login") {
-    return <Link href="/register" className="btn-style mr-4">Registrarse</Link>;
+  if (pathName === '/login') {
+    return (
+      <Link href="/register" className="btn-style mr-4 btn-link">
+        Registrarse
+      </Link>
+    );
   }
 
-  if (pathName === "/register") {
-    return <Link href="/login" className="btn-style mr-4">Iniciar sesión</Link>;
+  if (pathName === '/register') {
+    return (
+      <Link href="/login" className="btn-style mr-4 btn-link">
+        Iniciar sesión
+      </Link>
+    );
   }
 
   return (
-    <>
-      <Link href="/login" className="btn-style">Iniciar sesión</Link>
-      <Link href="/register" className="btn-style">Registrarse</Link>
-    </>
+    <div className="flex items-center gap-2">
+      <Link href="/login" className="btn-style btn-link">
+        Iniciar sesión
+      </Link>
+      <Link href="/register" className="btn-style btn-link">
+        Registrarse
+      </Link>
+    </div>
   );
 }

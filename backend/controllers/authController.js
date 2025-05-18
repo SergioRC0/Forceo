@@ -42,8 +42,7 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   const { emailOrUsername, password } = req.body;
-  
-
+  console.log(`Haciendo loggin`);
   try {
     const user = await findUserByEmailOrUsername(emailOrUsername);
 
@@ -52,16 +51,17 @@ const loginUser = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password_hash);
     if (!isMatch) return res.status(401).json({ error: 'Credenciales inválidas' });
 
-    const token = jwt.sign({ id: user.id}, process.env.JWT_SECRET, {expiresIn: '1h'});
-    
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    console.log(`Generando token ${JSON.stringify(token)}`);
+    console.log(new Date(token.exp));
     /* const refreshToken = randtoken.uid(256); //genera el token aleatorio
     await saveRefreshToken(user.id, refreshToken); */
 
     res.cookie('token', token, {
-      httpOnly: true,         //  No accesible desde JavaScript
+      httpOnly: true, //  No accesible desde JavaScript
       secure: process.env.NODE_ENV === 'production', // Solo por HTTPS en producción
-      sameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'Lax',     // Bloquea CSRF desde otros sitios
-      maxAge: 3600000,        // 1 hora
+      sameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'Lax', // Bloquea CSRF desde otros sitios
+      maxAge: 3600000, // 1 hora
     });
 
     return res.json({ mensaje: 'Login exitoso' });
@@ -72,11 +72,13 @@ const loginUser = async (req, res) => {
 };
 
 const logoutUser = (req, res) => {
+  console.log('Cookie recibida', req.cookies.token);
   res.clearCookie('token', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'Lax', 
+    sameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'Lax',
   });
+  console.log('Cookie eliminada');
   res.json({ mensaje: 'Sesión cerrada correctamente' });
 };
 
@@ -96,20 +98,20 @@ const getCurrentUser = async (req, res) => {
   }
 };
 
-const getAllUsers = async (req,res) => {
-    try {
-      const users = await prisma.user.findMany();
-      res.json(users);
-    } catch (error) {
-      console.error('Error al obtener usuarios:', error);
-      res.status(500).json({ error: 'Error al obtener usuarios' });
-    }
-}
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await prisma.user.findMany();
+    res.json(users);
+  } catch (error) {
+    console.error('Error al obtener usuarios:', error);
+    res.status(500).json({ error: 'Error al obtener usuarios' });
+  }
+};
 
 module.exports = {
   registerUser,
   loginUser,
   logoutUser,
-  getCurrentUser, 
-  getAllUsers
+  getCurrentUser,
+  getAllUsers,
 };

@@ -1,16 +1,10 @@
-import React from 'react'
-import Layout from '../(root)/layout'
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import React from 'react';
+import Layout from '../(root)/layout';
 
-export default async function LoginLayout({children}) {
-    const cookieStore = await cookies();
-    const token = cookieStore.get('token')?.value;
-    if(token) redirect('/profile');
-
+export default async function LoginLayout({ children }) {
   return (
     <div>
       <Layout hideOverflow>{children}</Layout>
     </div>
-  )
+  );
 }
