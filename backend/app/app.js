@@ -5,10 +5,13 @@ const authRoutes = require('../routes/auth');
 const postRouter = require('../routes/posts');
 const postsPublicRoutes = require('../routes/postsPublic');
 const { authenticateToken } = require('../middleware/authMiddleware');
+const passport = require('passport');
+require('../utils/googleStrategy');
 
 const app = express();
-app.use(express.json()); //MIDDLEWARE TO PARSE JSON
+app.use(express.json());
 app.use(cookieParser());
+app.use(passport.initialize());
 
 app.use(
   cors({

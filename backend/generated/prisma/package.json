@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "name": "prisma-client-1b492894a2ffb4e78b8923d711f007c2fdd0ce319b7189cc5bedcff6888743e1",
-=======
   "name": "prisma-client-386d78900c5d7bb1420e669c7b5abfcc5c2087fcabfeefaecd6acb85d6cb855e",
->>>>>>> 0ede138cf367122e046da649e763d62b3469b32f
   "main": "index.js",
   "types": "index.d.ts",
   "browser": "index-browser.js",

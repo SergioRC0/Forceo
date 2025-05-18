@@ -1,54 +1,5 @@
-/*
-  Warnings:
-
-  - You are about to drop the `comment` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `comment_like` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `post` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `post_like` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `user` table. If the table is not empty, all the data it contains will be lost.
-
-*/
 -- CreateEnum
 CREATE TYPE "CategoryType" AS ENUM ('BALONCESTO', 'FUTBOL', 'TENIS');
-
--- DropForeignKey
-ALTER TABLE "RefreshToken" DROP CONSTRAINT "RefreshToken_userId_fkey";
-
--- DropForeignKey
-ALTER TABLE "comment" DROP CONSTRAINT "comment_post_id_fkey";
-
--- DropForeignKey
-ALTER TABLE "comment" DROP CONSTRAINT "comment_user_id_fkey";
-
--- DropForeignKey
-ALTER TABLE "comment_like" DROP CONSTRAINT "comment_like_comment_id_fkey";
-
--- DropForeignKey
-ALTER TABLE "comment_like" DROP CONSTRAINT "comment_like_user_id_fkey";
-
--- DropForeignKey
-ALTER TABLE "post" DROP CONSTRAINT "post_user_id_fkey";
-
--- DropForeignKey
-ALTER TABLE "post_like" DROP CONSTRAINT "post_like_post_id_fkey";
-
--- DropForeignKey
-ALTER TABLE "post_like" DROP CONSTRAINT "post_like_user_id_fkey";
-
--- DropTable
-DROP TABLE "comment";
-
--- DropTable
-DROP TABLE "comment_like";
-
--- DropTable
-DROP TABLE "post";
-
--- DropTable
-DROP TABLE "post_like";
-
--- DropTable
-DROP TABLE "user";
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -107,6 +58,17 @@ CREATE TABLE "Post_like" (
     CONSTRAINT "Post_like_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "RefreshToken" (
+    "id" TEXT NOT NULL,
+    "token" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "expires_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "RefreshToken_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
@@ -118,6 +80,9 @@ CREATE UNIQUE INDEX "Comment_like_user_id_comment_id_key" ON "Comment_like"("use
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Post_like_user_id_post_id_key" ON "Post_like"("user_id", "post_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "RefreshToken_token_key" ON "RefreshToken"("token");
 
 -- AddForeignKey
 ALTER TABLE "Post" ADD CONSTRAINT "Post_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
