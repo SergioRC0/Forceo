@@ -108,24 +108,25 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-
-const verifyCaptcha = async (req, res) => {
-  const { captchaToken } = req.body;
-  console.log("Request body", req.body);
-
-  if (!captchaToken) {
-    return res.status(400).json({ message: "Token CAPTCHA faltante" });
+const verifyCaptcha = async (req, res, next) => {
+  const token = req.body.captchaToken;
+  if (!token) {
+    return res.status(400).json({ message: 'Captcha token faltante' });
   }
 
-  const isHuman = await verifyRecaptcha(captchaToken);
+  const secret = process.env.RECAPTCHA_SECRET_KEY;
+  const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${token}`;
 
-  if (!isHuman) {
-    return res.status(403).json({ message: "Verificación CAPTCHA fallida" });
+  const response = await fetch(verifyUrl, { method: 'POST' });
+  const { success, score } = await response.json();
+
+  if (!success || score < 0.5) {
+    console.log(res);
+    return res.status(403).json({ message: 'Captcha inválido' });
   }
 
-  return res.status(200).json({ message: "Verificación CAPTCHA exitosa" });
+  next();
 };
-
 
 module.exports = {
   registerUser,
@@ -133,5 +134,5 @@ module.exports = {
   logoutUser,
   getCurrentUser,
   getAllUsers,
-  verifyCaptcha
+  verifyCaptcha,
 };

@@ -1,6 +1,6 @@
 // routes/posts.js
 const express = require('express');
-const { createPost, listUserPosts,deletePost } = require('../controllers/posts');
+const { createPost, listUserPosts, deletePost } = require('../controllers/posts');
 
 const router = express.Router();
 
@@ -8,6 +8,6 @@ const router = express.Router();
 // aquí sólo defines la lógica:
 router.post('/createPost', createPost);
 router.get('/listPosts', listUserPosts);
-router.delete('/deletePost',deletePost);
+router.delete('/:id', deletePost);
 
 module.exports = router;

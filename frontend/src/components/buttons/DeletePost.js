@@ -1,22 +1,34 @@
+// components/buttons/DeletePost.jsx
 'use client';
+import { Loader2 } from 'lucide-react';
 import { Trash2Icon } from 'lucide-react';
 import { useDeletePost } from '@/hooks/useAuth';
+import { toast } from 'react-hot-toast';
 
-export default function DeletePost({ postId }) {
+export default function DeletePost({ postId, onDeleted }) {
   const { deletePost, loading } = useDeletePost();
 
-  const handleDelete = () => {
-    deletePost(postId);
+  const handleDelete = async () => {
+    try {
+      const { ok, data } = await deletePost(postId);
+      if (ok) {
+        toast.success('¡Publicación eliminada!');
+        onDeleted(postId);
+      } else {
+        toast.error('Error: ' + (data?.message || 'no especificado'));
+      }
+    } catch (err) {
+      toast.error('Error: ' + err.message);
+    }
   };
 
   return (
     <button
-      type="button"
       onClick={handleDelete}
       disabled={loading}
-      className=""
+      className="p-1 rounded hover:bg-red-100 transition"
     >
-      {loading ? '' : <Trash2Icon className="w-5 h-5 cursor-pointer"/>}
+      {loading ? <Loader2 className="h-5 w-5 animate-spin left" /> : <Trash2Icon className="" />}
     </button>
   );
 }

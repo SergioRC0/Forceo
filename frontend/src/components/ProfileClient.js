@@ -4,10 +4,19 @@ import CreatePostForm from './forms/CreatePostForm';
 import { createPost } from '@/lib/api/posts';
 import toast from 'react-hot-toast';
 import UserPosts from './UserPosts';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function ProfileClient({ initialUser, initialPosts }) {
   const [posts, setPosts] = useState(initialPosts);
-  console.log(initialPosts);
+  const router = useRouter();
+  // 1) State para controlar la animación solo en el primer render
+  const [firstRender, setFirstRender] = useState(true);
+  useEffect(() => {
+    // Se ejecuta una vez tras el primer paint
+    setFirstRender(false);
+  }, []);
+
   const [showModal, setShowModal] = useState(false);
 
   if (!initialUser) {
@@ -24,13 +33,14 @@ export default function ProfileClient({ initialUser, initialPosts }) {
       setPosts(prev => [data, ...prev]);
       setShowModal(false);
       toast.success('¡Publicación creada!');
+      router.refresh();
     } else {
       toast.error('Error: ' + data.message);
     }
   };
 
   return (
-    <div className="min-h-screen animate-fade-in">
+    <div className={`min-h-screen ${firstRender ? 'animate-fade-in' : ''}`}>
       <header className="max-w-3xl mx-auto text-center pt-24 pb-12 px-4">
         <h1 className="text-5xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">
           ¡Hola, {initialUser.username}!

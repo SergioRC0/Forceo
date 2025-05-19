@@ -2,6 +2,7 @@
 'use client';
 import { useState } from 'react';
 import { loginUser, logoutUser, registerUser } from '@/lib/api/auth';
+import { deletePostApi } from '@/lib/api/posts';
 import { useRouter } from 'next/navigation';
 
 export function useLogin() {
@@ -81,10 +82,10 @@ export function usePost() {
 export function useDeletePost() {
   const [loading, setLoading] = useState(false);
 
-  async function post(data) {
+  async function deletePost(postId) {
     setLoading(true);
     try {
-      const res = await deletePost(data);
+      const data = await deletePostApi(postId);
       return { ok: true, data };
     } catch (err) {
       return { ok: false, data: { message: err.message } };
@@ -93,5 +94,5 @@ export function useDeletePost() {
     }
   }
 
-  return { post, loading };
+  return { deletePost, loading };
 }

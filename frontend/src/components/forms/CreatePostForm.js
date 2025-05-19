@@ -4,10 +4,10 @@ import { usePost } from '@/hooks/useAuth';
 import { useState } from 'react';
 
 export default function CreatePostForm({ onPostCreated }) {
-  const [form, setForm] = useState({title: '', content: '', category: 'BALONCESTO'});
+  const [form, setForm] = useState({ title: '', content: '', category: 'BALONCESTO' });
   const [loading, setLoading] = useState(false);
-  
-  const handleChange = (e) => {
+
+  const handleChange = e => {
     const { name, value } = e.target;
     setForm(category => ({ ...category, [name]: value }));
   };
@@ -15,7 +15,7 @@ export default function CreatePostForm({ onPostCreated }) {
   const handleSubmit = async e => {
     e.preventDefault();
     setLoading(true);
-    await onPostCreated(form);   // <— aquí usas el mismo patrón
+    await onPostCreated(form); // <— aquí usas el mismo patrón
     setLoading(false);
   };
 
@@ -24,7 +24,10 @@ export default function CreatePostForm({ onPostCreated }) {
       {/* Categoría */}
       <div>
         <label className="block text-sm font-medium text-gray-700">Categoría</label>
-        <select name="category" value={form.category} onChange={handleChange}
+        <select
+          name="category"
+          value={form.category}
+          onChange={handleChange}
           className="
             mt-1 block w-full
             border border-gray-300 rounded-lg
@@ -83,9 +86,7 @@ export default function CreatePostForm({ onPostCreated }) {
         disabled={loading}
         className={`
           w-full py-3 text-lg font-semibold rounded-lg btn-hover
-          ${loading
-            ? 'bg-gray-400 cursor-not-allowed'
-            : 'bg-indigo-600 hover:bg-indigo-700'}
+          ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'}
           text-white shadow-lg transition
         `}
       >
