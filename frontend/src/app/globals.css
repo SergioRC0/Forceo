@@ -25,6 +25,11 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.btn-animation {
+  @apply transition duration-200 ease-in-out
+         hover:-translate-y-1 hover:scale-105;
+}
+
 .btn-style {
   @apply transition duration-200 ease-in-out
          hover:-translate-y-1 hover:scale-105
