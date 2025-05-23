@@ -5,7 +5,7 @@ export default function GoogleLoginButton() {
     <button
       type="button"
       onClick={() => (window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`)}
-      className="w-full mt-4 flex items-center justify-center gap-2 bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 font-semibold py-2 px-4 rounded shadow transition-colors cursor-pointer"
+      className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 font-semibold py-2 px-4 rounded-xl shadow transition-colors cursor-pointer btn-animation"
     >
       <svg className="w-5 h-5" viewBox="0 0 48 48">
         <g>

@@ -8,6 +8,7 @@ const {
   logoutUser,
   getCurrentUser,
   getAllUsers,
+  verifyCaptcha,
 } = require('../controllers/authController');
 const {
   validateRegister,

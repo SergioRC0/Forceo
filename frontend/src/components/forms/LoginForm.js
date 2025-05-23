@@ -33,7 +33,7 @@ export default function LoginForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-full max-w-xl py-10 px-10 rounded-2xl shadow-2xl space-y-6 mx-4 bg-white"
+      className="w-full max-w-xl py-10 px-10 rounded-2xl shadow-2xl space-y-5 mx-4 bg-white"
     >
       <div className="text-center space-y-4">
         <h2 className="text-4xl font-bold text-black">Conéctate</h2>

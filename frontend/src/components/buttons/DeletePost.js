@@ -26,7 +26,7 @@ export default function DeletePost({ postId, onDeleted }) {
     <button
       onClick={handleDelete}
       disabled={loading}
-      className="p-1 rounded hover:bg-red-100 transition"
+      className="p-1 rounded hover:bg-red-700 hover:text-white transition cursor-pointer"
     >
       {loading ? <Loader2 className="h-5 w-5 animate-spin left" /> : <Trash2Icon className="" />}
     </button>
