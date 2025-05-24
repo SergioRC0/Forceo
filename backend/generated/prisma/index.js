@@ -35,21 +35,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
-<<<<<<< HEAD
- * Prisma Client JS version: 6.7.0
- * Query Engine version: 3cff47a7f5d65c3ea74883f1d736e41d68ce91ed
- */
-Prisma.prismaVersion = {
-  client: "6.7.0",
-  engine: "3cff47a7f5d65c3ea74883f1d736e41d68ce91ed"
-=======
  * Prisma Client JS version: 6.8.2
  * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
  */
 Prisma.prismaVersion = {
   client: "6.8.2",
   engine: "2060c79ba17c6bb9f5823312b6f6b7f4a845738e"
->>>>>>> 576c82430619c40f6667af0f04d35c48280fc170
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -191,11 +182,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-<<<<<<< HEAD
-      "value": "/Users/edupinorodriguez/Desktop/Forceo/backend/generated/prisma",
-=======
       "value": "C:\\Users\\tudor\\Desktop\\forceo\\backend\\generated\\prisma",
->>>>>>> 576c82430619c40f6667af0f04d35c48280fc170
       "fromEnvVar": null
     },
     "config": {
@@ -204,20 +191,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-<<<<<<< HEAD
-        "value": "darwin-arm64",
-=======
         "value": "windows",
->>>>>>> 576c82430619c40f6667af0f04d35c48280fc170
         "native": true
       }
     ],
     "previewFeatures": [],
-<<<<<<< HEAD
-    "sourceFilePath": "/Users/edupinorodriguez/Desktop/Forceo/backend/prisma/schema.prisma",
-=======
     "sourceFilePath": "C:\\Users\\tudor\\Desktop\\forceo\\backend\\prisma\\schema.prisma",
->>>>>>> 576c82430619c40f6667af0f04d35c48280fc170
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -225,13 +204,8 @@ const config = {
     "schemaEnvPath": "../../.env"
   },
   "relativePath": "../../prisma",
-<<<<<<< HEAD
-  "clientVersion": "6.7.0",
-  "engineVersion": "3cff47a7f5d65c3ea74883f1d736e41d68ce91ed",
-=======
   "clientVersion": "6.8.2",
   "engineVersion": "2060c79ba17c6bb9f5823312b6f6b7f4a845738e",
->>>>>>> 576c82430619c40f6667af0f04d35c48280fc170
   "datasourceNames": [
     "db"
   ],
@@ -240,11 +214,7 @@ const config = {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-<<<<<<< HEAD
-        "value": "postgresql://postgres@localhost:5432/forceo"
-=======
         "value": null
->>>>>>> 576c82430619c40f6667af0f04d35c48280fc170
       }
     }
   },
@@ -288,13 +258,8 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
-<<<<<<< HEAD
-path.join(__dirname, "libquery_engine-darwin-arm64.dylib.node");
-path.join(process.cwd(), "generated/prisma/libquery_engine-darwin-arm64.dylib.node")
-=======
 path.join(__dirname, "query_engine-windows.dll.node");
 path.join(process.cwd(), "generated/prisma/query_engine-windows.dll.node")
->>>>>>> 576c82430619c40f6667af0f04d35c48280fc170
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "generated/prisma/schema.prisma")
