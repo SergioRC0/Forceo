@@ -53,7 +53,7 @@ const loginUser = async (req, res) => {
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     console.log(`Generando token ${JSON.stringify(token)}`);
-    console.log(new Date(token.exp));
+    // console.log(new Date(token.exp));
     /* const refreshToken = randtoken.uid(256); //genera el token aleatorio
     await saveRefreshToken(user.id, refreshToken); */
 
@@ -108,10 +108,37 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
+=======
+const verifyCaptcha = async (req, res, next) => {
+  const token = req.body.captchaToken;
+  if (!token) {
+    return res.status(400).json({ message: 'Captcha token faltante' });
+  }
+
+  const secret = process.env.RECAPTCHA_SECRET_KEY;
+  const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${token}`;
+
+  const response = await fetch(verifyUrl, { method: 'POST' });
+  const { success, score } = await response.json();
+
+  if (!success || score < 0.5) {
+    console.log(res);
+    return res.status(403).json({ message: 'Captcha inválido' });
+  }
+
+  next();
+};
+
+>>>>>>> 576c82430619c40f6667af0f04d35c48280fc170
 module.exports = {
   registerUser,
   loginUser,
   logoutUser,
   getCurrentUser,
   getAllUsers,
+<<<<<<< HEAD
+=======
+  verifyCaptcha,
+>>>>>>> 576c82430619c40f6667af0f04d35c48280fc170
 };

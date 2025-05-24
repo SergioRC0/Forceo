@@ -27,5 +27,11 @@ export default async function ProfilePage() {
   });
   const initialPosts = postsRes.ok ? await postsRes.json() : [];
 
-  return <ProfileClient initialUser={initialUser} initialPosts={initialPosts} />;
+  return (
+    <ProfileClient
+      key={initialPosts.length}
+      initialUser={initialUser}
+      initialPosts={initialPosts}
+    />
+  );
 }

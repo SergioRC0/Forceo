@@ -57,7 +57,45 @@ const listUserPosts = async (req, res) => {
   return res.json(posts);
 };
 
+//Delete POST
+const deletePost = async (req, res) => {
+  const { id } = req.params; // suponemos que el id del post viene por URL
+  const userId = req.user?.id; // suponiendo que ya autenticás al usuario
+
+  try {
+    // 1. Verificamos si el post existe y pertenece al usuario
+    const post = await prisma.post.findUnique({ where: { id } });
+
+    if (!post) {
+      return res.status(404).json({ error: 'Post no encontrado' });
+    }
+
+    if (post.user_id !== userId) {
+      return res.status(403).json({ error: 'No tienes permiso para borrar este post' });
+    }
+
+    // 2. Borramos el post
+    const deletedPost = await prisma.post.delete({
+      where: { id },
+      select: {
+        id: true,
+        user_id: true,
+        category: true,
+        title: true,
+        content: true,
+        created_at: true,
+      },
+    });
+
+    return res.status(200).json(deletedPost);
+  } catch (err) {
+    console.error('Error borrando post:', err);
+    return res.status(500).json({ error: 'Error al borrar el post' });
+  }
+};
+
 module.exports = {
   createPost,
   listUserPosts,
+  deletePost,
 };

@@ -30,8 +30,9 @@ export default async function Home() {
                 key={post.id}
                 className="
                   bg-white rounded-2xl shadow-md 
-                  hover:shadow-xl transition-shadow
-                  flex flex-col overflow-hidden
+                
+                  flex flex-col overflow-hidden transform hover:scale-105 hover:shadow-2xl
+                transition-all duration-300
                 "
               >
                 <div className="p-6 flex flex-col flex-grow">

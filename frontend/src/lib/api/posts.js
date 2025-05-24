@@ -11,3 +11,9 @@ export async function createPost(data) {
     return { ok: false, data: { message: err.message } };
   }
 }
+
+export async function deletePostApi(postId) {
+  return fetcher(`/api/posts/${postId}`, {
+    method: 'DELETE',
+  });
+}
