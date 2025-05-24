@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// Categorías fijas en forma de enum
+enum CategoryType {
+  BALONCESTO
+  FUTBOL
+  TENIS
+}
+
+/// Usuarios de la aplicación
+model User {
+  id            String    @id @default(uuid())
+  username      String    @unique @db.VarChar(50)
+  email         String    @unique @db.VarChar(150)
+  password_hash String
+  created_at    DateTime? @default(now()) @db.Timestamp(6)
+
+  posts         Post[]
+  comments      Comment[]
+  post_likes    Post_like[]
+  comment_likes Comment_like[]
+  refreshTokens RefreshToken[]
+}
+
+/// Publicaciones de usuarios, cada una con categoría fija (enum)
+model Post {
+  id         String       @id @default(uuid())
+  user_id    String
+  category   CategoryType
+  title      String       @db.VarChar(255)
+  content    String
+  like_count Int?         @default(0)
+  created_at DateTime?    @default(now()) @db.Timestamp(6)
+
+  user       User        @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  comments   Comment[] // comentarios de primer nivel y respuestas
+  post_likes Post_like[]
+}
+
+/// Comentarios en cada publicación, con anidamiento (respuestas a comentarios)
+model Comment {
+  id         String    @id @default(uuid())
+  post_id    String
+  user_id    String
+  parent_id  String? // referencia al comentario padre
+  content    String
+  like_count Int?      @default(0)
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+
+  post          Post           @relation(fields: [post_id], references: [id], onDelete: Cascade)
+  user          User           @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  parent        Comment?       @relation("CommentReplies", fields: [parent_id], references: [id], onDelete: Cascade)
+  replies       Comment[]      @relation("CommentReplies")
+  comment_likes Comment_like[]
+}
+
+/// Likes a comentarios\ 
+model Comment_like {
+  id         String    @id @default(uuid())
+  user_id    String
+  comment_id String
+  created_at DateTime? @default(now())
+
+  comment Comment @relation(fields: [comment_id], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@unique([user_id, comment_id])
+}
+
+/// Likes a publicaciones
+model Post_like {
+  id         String    @id @default(uuid())
+  user_id    String
+  post_id    String
+  created_at DateTime? @default(now())
+
+  post Post @relation(fields: [post_id], references: [id], onDelete: Cascade)
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@unique([user_id, post_id])
+}
+
+/// Tokens de refresco para autenticación
+model RefreshToken {
+  id         String   @id @default(uuid())
+  token      String   @unique
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now())
+  expires_at DateTime
+}

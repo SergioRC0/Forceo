@@ -78,8 +78,6 @@ export function usePost() {
 
   return { post, loading };
 }
-<<<<<<< HEAD
-=======
 
 export function useDeletePost() {
   const [loading, setLoading] = useState(false);
@@ -98,4 +96,3 @@ export function useDeletePost() {
 
   return { deletePost, loading };
 }
->>>>>>> 576c82430619c40f6667af0f04d35c48280fc170
