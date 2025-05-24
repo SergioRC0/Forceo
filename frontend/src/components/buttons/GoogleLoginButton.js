@@ -31,8 +31,4 @@ export default function GoogleLoginButton() {
       Iniciar sesión con Google
     </button>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 576c82430619c40f6667af0f04d35c48280fc170

@@ -108,8 +108,6 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-=======
 const verifyCaptcha = async (req, res, next) => {
   const token = req.body.captchaToken;
   if (!token) {
@@ -130,15 +128,11 @@ const verifyCaptcha = async (req, res, next) => {
   next();
 };
 
->>>>>>> 576c82430619c40f6667af0f04d35c48280fc170
 module.exports = {
   registerUser,
   loginUser,
   logoutUser,
   getCurrentUser,
   getAllUsers,
-<<<<<<< HEAD
-=======
   verifyCaptcha,
->>>>>>> 576c82430619c40f6667af0f04d35c48280fc170
 };
