@@ -7,6 +7,7 @@ const postsPublicRoutes = require('../routes/postsPublic');
 const { authenticateToken } = require('../middleware/authMiddleware');
 const passport = require('passport');
 require('../utils/googleStrategy');
+const emailRoutes = require('../routes/email');
 
 const app = express();
 app.use(express.json());
@@ -25,5 +26,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/postsPublic', postsPublicRoutes);
 //ruta protegidas
 app.use('/api/posts', authenticateToken, postRouter);
+app.use('/api/email', emailRoutes);
 
 module.exports = app;
