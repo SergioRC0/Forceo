@@ -5,6 +5,7 @@ const prisma = require('../lib/prisma');
 const dotenv = require('dotenv');
 const randtoken = require('rand-token');
 const { findUserByEmailOrUsername } = require('../utils/authUtils');
+const { sendEmail } = require('../utils/emailService');
 
 dotenv.config();
 
@@ -27,6 +28,23 @@ const registerUser = async (req, res) => {
         username: true,
         email: true,
       },
+    });
+
+    // Enviar correo de bienvenida
+    await sendEmail({
+      to: email,
+      subject: '¡Bienvenido a Forceo!',
+      html: `
+        <h1>¡Bienvenido a Forceo, ${username}!</h1>
+        <p>Gracias por registrarte en nuestra plataforma. Estamos emocionados de tenerte con nosotros.</p>
+        <p>Ya puedes comenzar a explorar todas las funcionalidades que tenemos para ti.</p>
+        <br>
+        <p>Saludos,</p>
+        <p>El equipo de Forceo</p>
+      `
+    }).catch(error => {
+      // Log el error pero no afecta el registro del usuario
+      console.error('Error al enviar el correo de bienvenida:', error);
     });
 
     return res.status(201).json({ user: newUser });
