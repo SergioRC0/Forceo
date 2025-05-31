@@ -3,8 +3,10 @@ import { useState } from 'react';
 import { Heart, MessageCircle } from 'lucide-react';
 import DeletePost from './buttons/DeletePost';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import LikeButton from './buttons/LikeButton';
 
-export default function UserPosts({ posts }) {
+export default function UserPosts({ posts, currentUser }) {
   // 1️⃣ Estado local de posts
   const [userPosts, setUserPosts] = useState(posts);
   const router = useRouter();
@@ -47,19 +49,25 @@ export default function UserPosts({ posts }) {
 
                 <p className="text-gray-700 line-clamp-3">{post.content}</p>
 
-                <div className="flex justify-between items-center text-gray-600">
+                <div className="flex justify-between items-center text-black">
                   <div className="flex space-x-6">
-                    <div className="flex items-center space-x-1">
-                      <Heart className="w-5 h-5 cursor-pointer" />
-                      <span>{post.post_likes?.length ?? 0}</span>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <MessageCircle className="w-5 h-5 cursor-pointer" />
+                    <LikeButton
+                      itemId={post.id}
+                      type="post"
+                      isLiked={post.post_likes?.some(like => like.user_id === currentUser?.id)}
+                      totalLikes={post.post_likes?.length ?? 0}
+                      isAuthenticated={!!currentUser}
+                    />
+
+                    <div className="flex justify-between items-center space-x-1">
+                      <Link href={`/post/${post.id}#comentarios`}>
+                        <MessageCircle className="w-5 h-5 cursor-pointer text-black hover:text-indigo-600" />
+                      </Link>
                       <span>{post.comments?.length ?? 0}</span>
                     </div>
                   </div>
 
-                  {/* 4️⃣ Pasamos post.id y el callback */}
+                  {/*  Pasamos post.id y el callback */}
                   <DeletePost postId={post.id} onDeleted={handleDelete} />
                 </div>
               </div>

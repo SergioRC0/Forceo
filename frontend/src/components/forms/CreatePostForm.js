@@ -23,61 +23,67 @@ export default function CreatePostForm({ onPostCreated }) {
     <form onSubmit={handleSubmit} className="space-y-6 ">
       {/* Categoría */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">Categoría</label>
-        <select
-          name="category"
-          value={form.category}
-          onChange={handleChange}
-          className="
+        <label className="block text-sm font-medium text-gray-700">
+          Categoría
+          <select
+            name="category"
+            value={form.category}
+            onChange={handleChange}
+            className="
             mt-1 block w-full
             border border-gray-300 rounded-lg
             p-3 bg-white text-gray-900
             focus:outline-none focus:ring-2 focus:ring-indigo-500
             transition
           "
-        >
-          <option value="BALONCESTO">Baloncesto</option>
-          <option value="FUTBOL">Fútbol</option>
-          <option value="TENIS">Tenis</option>
-        </select>
+          >
+            <option value="BALONCESTO">Baloncesto</option>
+            <option value="FUTBOL">Fútbol</option>
+            <option value="TENIS">Tenis</option>
+          </select>
+        </label>
       </div>
 
       {/* Título */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">Título</label>
-        <input
-          name="title"
-          type="text"
-          value={form.title}
-          onChange={handleChange}
-          required
-          className="
+        <label className="block text-sm font-medium text-gray-700">
+          Título
+          <input
+            name="title"
+            type="text"
+            value={form.title}
+            onChange={handleChange}
+            required
+            className="
             mt-1 block w-full
             border border-gray-300 rounded-lg
             p-3 bg-white text-gray-900
             focus:outline-none focus:ring-2 focus:ring-indigo-500
             transition
           "
-        />
+          />
+        </label>
       </div>
 
       {/* Contenido */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">Contenido</label>
-        <textarea
-          name="content"
-          value={form.content}
-          onChange={handleChange}
-          required
-          rows={5}
-          className="
+        <label className="block text-sm font-medium text-gray-700">
+          Contenido
+          <textarea
+            name="content"
+            value={form.content}
+            onChange={handleChange}
+            required
+            rows={5}
+            className="
             mt-1 block w-full
             border border-gray-300 rounded-lg
             p-3 bg-white text-gray-900
             focus:outline-none focus:ring-2 focus:ring-indigo-500
             transition
           "
-        />
+          />
+        </label>
       </div>
 
       {/* Botón */}

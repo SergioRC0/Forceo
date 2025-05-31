@@ -2,7 +2,7 @@
 'use client';
 import { Loader2 } from 'lucide-react';
 import { Trash2Icon } from 'lucide-react';
-import { useDeletePost } from '@/hooks/useAuth';
+import { useDeletePost } from '@/hooks/usePosts';
 import { toast } from 'react-hot-toast';
 
 export default function DeletePost({ postId, onDeleted }) {
@@ -28,7 +28,7 @@ export default function DeletePost({ postId, onDeleted }) {
       disabled={loading}
       className="p-1 rounded hover:bg-red-700 hover:text-white transition cursor-pointer"
     >
-      {loading ? <Loader2 className="h-5 w-5 animate-spin left" /> : <Trash2Icon className="" />}
+      {loading ? <Loader2 className="h-5 w-5 animate-spin left" /> : <Trash2Icon />}
     </button>
   );
 }

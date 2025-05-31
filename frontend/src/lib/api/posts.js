@@ -17,3 +17,16 @@ export async function deletePostApi(postId) {
     method: 'DELETE',
   });
 }
+
+export async function createCommentApi({ postId, content, parentId }) {
+  return fetcher('/api/posts/comments', {
+    method: 'POST',
+    body: JSON.stringify({ postId, content, parentId }),
+  });
+}
+
+export async function deleteCommentApi(commentId) {
+  return fetcher(`/api/posts/comments/${commentId}`, {
+    method: 'DELETE',
+  });
+}

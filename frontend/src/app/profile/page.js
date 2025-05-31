@@ -27,11 +27,18 @@ export default async function ProfilePage() {
   });
   const initialPosts = postsRes.ok ? await postsRes.json() : [];
 
+  const commentRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/listComments`, {
+    headers: { Cookie: cookieHeader },
+    cache: 'no-store',
+  });
+  const initialComments = commentRes.ok ? await commentRes.json() : [];
+
   return (
     <ProfileClient
       key={initialPosts.length}
       initialUser={initialUser}
       initialPosts={initialPosts}
+      initialComments={initialComments}
     />
   );
 }

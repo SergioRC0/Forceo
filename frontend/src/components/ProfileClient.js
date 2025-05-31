@@ -6,8 +6,12 @@ import toast from 'react-hot-toast';
 import UserPosts from './UserPosts';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import Tabs from './Tabs';
+import UserComments from './UserComments';
 
-export default function ProfileClient({ initialUser, initialPosts }) {
+export default function ProfileClient({ initialUser, initialPosts, initialComments }) {
+  const [activeTab, setActiveTab] = useState('posts');
+  const [comments, setComments] = useState(initialComments);
   const [posts, setPosts] = useState(initialPosts);
   const router = useRouter();
   // 1) State para controlar la animación solo en el primer render
@@ -64,10 +68,13 @@ export default function ProfileClient({ initialUser, initialPosts }) {
           Crear tu publicación
         </button>
       </header>
-
+      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
       {/*publicaciones */}
-      <UserPosts posts={posts} />
-
+      {activeTab === 'posts' ? (
+        <UserPosts posts={posts} currentUser={initialUser} />
+      ) : (
+        <UserComments comments={comments} currentUser={initialUser} />
+      )}
       {/* Overlay */}
       {showModal && (
         <div className=" fixed inset-0 bg-black bg-opacity-50 backdrop:-blur-sm flex items-center justify-center z-50">

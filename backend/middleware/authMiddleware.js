@@ -2,6 +2,7 @@
 const { body, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const { RateLimiterMemory } = require('rate-limiter-flexible');
 
 dotenv.config();
 
@@ -80,4 +81,25 @@ const authenticateToken = (req, res, next) => {
   }
 };
 
-module.exports = { authenticateToken, validateRegister, validateLogin };
+// 5 peticiones por 10 segundos
+const rateLimiter = new RateLimiterMemory({
+  points: 5, // número de intentos
+  duration: 10, // en segundos
+});
+
+const rateLimitMiddleware = (req, res, next) => {
+  const key = req.user.id; // También puedes usar req.user.id si el usuario está autenticado
+  console.log(`[RateLimit] Intento de ${key}`);
+  rateLimiter
+    .consume(key)
+    .then(() => {
+      next(); // Permite la petición
+    })
+    .catch(() => {
+      res.status(429).json({
+        message: 'Demasiadas peticiones. Intenta de nuevo en unos segundos.',
+      });
+    });
+};
+
+module.exports = { authenticateToken, validateRegister, validateLogin, rateLimitMiddleware };
