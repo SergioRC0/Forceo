@@ -228,6 +228,86 @@ const toggleCommentLike = async (req, res) => {
     return res.status(500).json({ error: 'Error al dar like' });
   }
 };
+const editPost = async (req, res) => {
+  const { id } = req.params; // ID del post
+  const { title, content, category } = req.body;
+  const userId = req.user?.id;
+
+  try {
+    const post = await prisma.post.findUnique({ where: { id } });
+
+    if (!post) {
+      return res.status(404).json({ error: 'Post no encontrado' });
+    }
+
+    if (post.user_id !== userId) {
+      return res.status(403).json({ error: 'No tienes permiso para editar este post' });
+    }
+
+    const updated = await prisma.post.update({
+      where: { id },
+      data: {
+        title,
+        content,
+      },
+      include: {
+        post_likes: true,
+        comments: true,
+        user: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
+      },
+    });
+
+    return res.status(200).json(updated);
+  } catch (err) {
+    console.error('Error al editar post:', err);
+    return res.status(500).json({ error: 'Error al editar el post' });
+  }
+};
+const editComment = async (req, res) => {
+  const { id } = req.params;
+  const { content } = req.body;
+  const userId = req.user?.id;
+
+  if (!content || content.trim() === '') {
+    return res.status(400).json({ error: 'El contenido no puede estar vacío' });
+  }
+
+  try {
+    const comment = await prisma.comment.findUnique({ where: { id } });
+
+    if (!comment) {
+      return res.status(404).json({ error: 'Comentario no encontrado' });
+    }
+
+    if (comment.user_id !== userId) {
+      return res.status(403).json({ error: 'No tienes permiso para editar este comentario' });
+    }
+
+    const updated = await prisma.comment.update({
+      where: { id },
+      data: { content },
+      include: {
+        user: {
+          select: { id: true, username: true },
+        },
+        comment_likes: true,
+        replies: {
+          select: { id: true }, // solo para mantener estructura si se usa
+        },
+      },
+    });
+
+    return res.status(200).json(updated);
+  } catch (err) {
+    console.error('Error al editar comentario:', err);
+    return res.status(500).json({ error: 'Error al editar el comentario' });
+  }
+};
 
 module.exports = {
   createPost,
@@ -238,4 +318,6 @@ module.exports = {
   listUserComments,
   toggleCommentLike,
   togglePostLike,
+  editPost,
+  editComment,
 };

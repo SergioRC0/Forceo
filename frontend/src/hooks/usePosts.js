@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { deletePostApi, createPost } from '@/lib/api/posts';
+import { deletePostApi, createPost, updatePost, updateComment } from '@/lib/api/posts';
 
 export function usePost() {
   const [loading, setLoading] = useState(false);
@@ -36,4 +36,38 @@ export function useDeletePost() {
   }
 
   return { deletePost, loading };
+}
+export function useEditPost() {
+  const [loading, setLoading] = useState(false);
+
+  async function editPost(postId, updatedData) {
+    setLoading(true);
+    try {
+      const res = await updatePost(postId, updatedData);
+      return res; // ya está estructurado como { ok, data }
+    } catch (err) {
+      return { ok: false, data: { message: err.message } };
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return { editPost, loading };
+}
+export function useEditComment() {
+  const [loading, setLoading] = useState(false);
+
+  async function editComment(commentId, content) {
+    setLoading(true);
+    try {
+      const res = await updateComment(commentId, content);
+      return res;
+    } catch (err) {
+      return { ok: false, data: { message: err.message } };
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return { editComment, loading };
 }

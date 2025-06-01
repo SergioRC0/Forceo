@@ -36,9 +36,6 @@ export default function UserMenu({ user }) {
           <Link href="/profile" className="block px-2 py-1 hover:bg-gray-600 text-sm">
             Perfil
           </Link>
-          <Link href="/settings" className="block px-2 py-1 hover:bg-gray-600 text-sm">
-            Configuración
-          </Link>
           <LogoutButton />
         </div>
       )}

@@ -1,6 +1,5 @@
 // components/Post/PostCard.jsx
 import PostActions from './PostActions';
-import Link from 'next/link';
 
 export default function PostCard({ post, currentUserId }) {
   return (
@@ -15,10 +14,11 @@ export default function PostCard({ post, currentUserId }) {
             {new Date(post.created_at).toLocaleDateString()}
           </time>
         </div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-2 line-clamp-2">
-          <span className="user-style ">{post.user?.username}</span> {post.title}
+        <h2 className="text-xl font-semibold text-gray-900 mb-2 ">
+          <span className="user-style">{post.user?.username}</span>{' '}
+          <p className=" break-words line-clamp-1">{post.title}</p>
         </h2>
-        <p className="text-gray-600 flex-grow line-clamp-3">{post.content}</p>
+        <p className="text-gray-600 flex-grow break-words line-clamp-1 ">{post.content}</p>
         <PostActions post={post} currentUserId={currentUserId} />
       </div>
     </li>

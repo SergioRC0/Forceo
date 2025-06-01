@@ -4,7 +4,7 @@ import Layout from '../(root)/layout';
 export default async function LoginLayout({ children }) {
   return (
     <div>
-      <Layout hideOverflow>{children}</Layout>
+      <Layout>{children}</Layout>
     </div>
   );
 }

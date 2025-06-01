@@ -1,7 +1,7 @@
 // components/Post/PostActions.jsx
 'use client';
 import Link from 'next/link';
-import { Heart, MessageCircle } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
 import LikeButton from '../buttons/LikeButton';
 export default function PostActions({ post, currentUserId }) {
   return (

@@ -1,7 +1,7 @@
 // components/Comment/CommentSection.jsx
 'use client';
 import CommentForm from '../forms/CommentForm';
-import CommentTree from '../CommentTree';
+import CommentTree from './CommentTree';
 import { useComments } from '@/hooks/useComments';
 import AuthLinks from '../AuthLinks';
 import { createContext, useContext } from 'react';
@@ -13,7 +13,8 @@ export function useCooldown() {
 export default function CommentSection({ postId, initialComments, user }) {
   const { comments, addComment, deleteComment, inCooldown, secondsLeft, countAll } = useComments(
     postId,
-    initialComments
+    initialComments,
+    user
   );
 
   return (
@@ -25,7 +26,7 @@ export default function CommentSection({ postId, initialComments, user }) {
         {user ? (
           <CommentForm onCommentPosted={addComment} />
         ) : (
-          <div className="border p-4 rounded bg-gray-50 text-center space-y-2">
+          <div className="border p-4 rounded bg-gray-50 text-center space-y-2 m-2">
             <p className="text-gray-700">Debes iniciar sesión para comentar.</p>
             <div className="flex justify-center space-x-4">
               <AuthLinks />

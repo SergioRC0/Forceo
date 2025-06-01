@@ -1,7 +1,9 @@
 // src/routes/auth.js
 const express = require('express');
 const router = express.Router();
-
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
+require('../utils/googleStrategy');
 const {
   registerUser,
   loginUser,
@@ -9,15 +11,13 @@ const {
   getCurrentUser,
   getAllUsers,
   verifyCaptcha,
+  handleGoogleCallback,
 } = require('../controllers/authController');
 const {
   validateRegister,
   validateLogin,
   authenticateToken,
 } = require('../middleware/authMiddleware');
-
-const passport = require('passport');
-require('../utils/googleStrategy');
 
 router.post('/register', verifyCaptcha, validateRegister, registerUser);
 router.post('/login', validateLogin, loginUser);
@@ -38,21 +38,7 @@ router.get(
     session: false,
     failureRedirect: process.env.CLIENT_ORIGIN + '/login',
   }),
-  (req, res) => {
-    // Generar JWT y enviarlo como cookie
-    const jwt = require('jsonwebtoken');
-    const token = jwt.sign({ id: req.user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'Lax',
-      maxAge: 3600000,
-    });
-
-    // Redirigir al frontend (ajusta la ruta si tu frontend no está en /)
-    res.redirect(process.env.CLIENT_ORIGIN + '/profile');
-  }
+  handleGoogleCallback
 );
 
 module.exports = router;

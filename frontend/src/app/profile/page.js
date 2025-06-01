@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import ProfileClient from '@/components/ProfileClient';
+import ProfileClient from '@/components/profile/ProfileClient';
 
 export default async function ProfilePage() {
   // Reconstruye la cookie header para tu API

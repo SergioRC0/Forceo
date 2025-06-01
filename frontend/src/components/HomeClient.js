@@ -6,7 +6,7 @@ export default function HomeClient({ categories, posts, user }) {
     <div>
       <main className="min-h-screen py-12 px-4 animate-fade-in">
         <div className="max-w-4xl mx-auto text-center mb-12">
-          <h1 className="text-5xl font-extrabold title-style mb-4">Comunidad Forceo</h1>
+          <h1 className="text-5xl md:mt-8 font-extrabold title-style mb-4">Comunidad Forceo</h1>
           <p className="text-lg">
             Explora las publicaciones de nuestra comunidad. ¡Encuentra algo que te inspire!
           </p>

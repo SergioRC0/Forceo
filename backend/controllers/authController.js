@@ -41,7 +41,7 @@ const registerUser = async (req, res) => {
         <br>
         <p>Saludos,</p>
         <p>El equipo de Forceo</p>
-      `
+      `,
     }).catch(error => {
       // Log el error pero no afecta el registro del usuario
       console.error('Error al enviar el correo de bienvenida:', error);
@@ -146,6 +146,19 @@ const verifyCaptcha = async (req, res, next) => {
   next();
 };
 
+const handleGoogleCallback = (req, res) => {
+  const token = jwt.sign({ id: req.user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+  res.cookie('token', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'Lax',
+    maxAge: 3600000, // 1 hora
+  });
+
+  return res.redirect(`${process.env.CLIENT_ORIGIN}/profile`);
+};
+
 module.exports = {
   registerUser,
   loginUser,
@@ -153,4 +166,5 @@ module.exports = {
   getCurrentUser,
   getAllUsers,
   verifyCaptcha,
+  handleGoogleCallback,
 };

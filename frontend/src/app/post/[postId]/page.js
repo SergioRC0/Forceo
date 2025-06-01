@@ -1,5 +1,5 @@
 // src/app/post/[postId]/page.jsx
-import PostClient from '@/components/PostClient';
+import PostClient from '@/components/Post/PostClient';
 import { cookies } from 'next/headers';
 
 export default async function PostPage({ params }) {

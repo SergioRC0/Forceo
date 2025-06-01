@@ -60,8 +60,54 @@ const validateCreateComment = [
     next();
   },
 ];
+// Validación para editar una publicación
+const validateEditPost = [
+  body('title')
+    .optional()
+    .trim()
+    .isLength({ min: 5, max: 255 })
+    .withMessage('El título debe tener entre 5 y 255 caracteres'),
+
+  body('content')
+    .optional()
+    .trim()
+    .isLength({ min: 10 })
+    .withMessage('El contenido debe tener al menos 10 caracteres'),
+
+  body('category')
+    .optional()
+    .isIn(['BALONCESTO', 'FUTBOL', 'TENIS'])
+    .withMessage('Categoría no válida'),
+
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+  },
+];
+// Validación para editar un comentario
+const validateEditComment = [
+  body('content')
+    .trim()
+    .notEmpty()
+    .withMessage('El comentario no puede estar vacío')
+    .isLength({ min: 2, max: 1000 })
+    .withMessage('El comentario debe tener entre 2 y 1000 caracteres'),
+
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+  },
+];
 
 module.exports = {
   validateCreatePost,
   validateCreateComment,
+  validateEditPost,
+  validateEditComment,
 };

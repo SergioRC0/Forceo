@@ -49,10 +49,10 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className="flex-grow flex items-center justify-center md:mb-30">
+    <div className="flex-grow flex items-center justify-center md:mb-30 animate-fade-in">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-md p-6 rounded-xl shadow-xl space-y-4 mx-4 bg-white"
+        className="w-full max-w-sm mx-auto p-6 mt-10 bg-white rounded-xl shadow-xl space-y-4"
       >
         <h2 className="text-4xl font-bold text-black text-center">
           Regístrate para tener total acceso

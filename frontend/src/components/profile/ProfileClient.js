@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import CreatePostForm from './forms/CreatePostForm';
+import CreatePostForm from '../forms/CreatePostForm';
 import { createPost } from '@/lib/api/posts';
 import toast from 'react-hot-toast';
 import UserPosts from './UserPosts';
@@ -47,7 +47,7 @@ export default function ProfileClient({ initialUser, initialPosts, initialCommen
     <div className={`min-h-screen ${firstRender ? 'animate-fade-in' : ''}`}>
       <header className="max-w-3xl mx-auto text-center pt-24 pb-12 px-4">
         <h1 className="text-5xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">
-          ¡Hola, {initialUser.username}!
+          ¡Hola, <span className="user-style">{initialUser.username}!</span>
         </h1>
         <p className="text-lg md:text-xl opacity-90 mb-8">
           Aquí podrás publicar todo lo que te apetezca. <br />

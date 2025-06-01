@@ -31,34 +31,51 @@ export default function LoginForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="w-full max-w-xl py-10 px-10 rounded-2xl shadow-2xl space-y-5 mx-4 bg-white"
-    >
-      <div className="text-center space-y-4">
-        <h2 className="text-4xl font-bold text-black">Conéctate</h2>
-      </div>
-      <input
-        type="text"
-        placeholder="Usuario/eMail"
-        {...register('emailOrUsername')}
-        className="w-full border rounded-xl px-3 py-2 border-black text-black"
-      />
-      {errors.emailOrUsername && (
-        <p className="text-red-500 text-sm mt-1">{errors.emailOrUsername.message}</p>
-      )}
-      <input
-        type="password"
-        {...register('password')}
-        placeholder="Contraseña"
-        className="w-full border rounded-xl px-3 py-2 border-black text-black"
-      />
-      {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
-      <p className="text-blue-400 hover:text-blue-700 cursor-pointer">
-        ¿Has olvidado la contraseña?
-      </p>
-      <SubmitButton loading={loading}>'Iniciar sesión'</SubmitButton>
-      <GoogleLoginButton />
-    </form>
+    <div className="flex-grow flex items-center justify-center md:mb-30 animate-fade-in">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-full max-w-md p-6 rounded-xl shadow-xl space-y-4 mx-4 bg-white animate-fade-in"
+      >
+        <h2 className="text-4xl font-bold text-black text-center">Conéctate</h2>
+
+        {/* Usuario o Email */}
+        <div className="relative w-full">
+          <input
+            type="text"
+            placeholder="Usuario/eMail"
+            {...register('emailOrUsername')}
+            className="w-full border rounded-xl px-3 py-2 text-black"
+          />
+          {errors.emailOrUsername && (
+            <p className="absolute right-2 top-1/2 -translate-y-1/2 text-red-500 text-sm">
+              {errors.emailOrUsername.message}
+            </p>
+          )}
+        </div>
+
+        {/* Contraseña */}
+        <div className="relative w-full">
+          <input
+            type="password"
+            {...register('password')}
+            placeholder="Contraseña"
+            className="w-full border rounded-xl px-3 py-2 text-black"
+          />
+          {errors.password && (
+            <p className="absolute right-2 top-1/2 -translate-y-1/2 text-red-500 text-sm">
+              {errors.password.message}
+            </p>
+          )}
+        </div>
+
+        <p className="text-blue-500 hover:underline cursor-pointer text-sm">
+          ¿Has olvidado la contraseña?
+        </p>
+
+        <SubmitButton loading={loading}>Iniciar sesión</SubmitButton>
+
+        <GoogleLoginButton />
+      </form>
+    </div>
   );
 }

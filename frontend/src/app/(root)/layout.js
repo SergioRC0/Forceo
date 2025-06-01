@@ -30,7 +30,7 @@ export default async function Layout({ children, hideOverflow = false }) {
       </nav>
       <section className="h-[100dvh] flex flex-grow">
         <main
-          className={`basis-4/4 p-17 bg-mycolor-main ${
+          className={`w-full bg-mycolor-main ${
             hideOverflow ? 'overflow-hidden' : 'overflow-y-auto'
           }`}
         >

@@ -9,8 +9,15 @@ const {
   listUserComments,
   togglePostLike,
   toggleCommentLike,
+  editPost,
+  editComment,
 } = require('../controllers/posts');
-const { validateCreatePost, validateCreateComment } = require('../middleware/validators');
+const {
+  validateCreatePost,
+  validateCreateComment,
+  validateEditPost,
+  validateEditComment,
+} = require('../middleware/validators');
 const { rateLimitMiddleware } = require('../middleware/authMiddleware');
 const router = express.Router();
 
@@ -24,6 +31,8 @@ router.delete('/comments/:id', deleteComment);
 router.get('/listComments', listUserComments);
 router.post('/toggleLike', togglePostLike);
 router.post('/comments/toggleLike', toggleCommentLike);
+router.put('/:id', validateEditPost, editPost);
+router.put('/comments/:id', validateEditComment, editComment);
 
 // y en routes/posts.js
 

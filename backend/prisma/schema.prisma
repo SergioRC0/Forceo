@@ -40,6 +40,7 @@ model Post {
   content      String
   like_count   Int?          @default(0)
   created_at   DateTime?     @default(now()) @db.Timestamp(6)
+  updated_at   DateTime?     @updatedAt
 
   user         User          @relation(fields: [user_id], references: [id], onDelete: Cascade)
   comments     Comment[]     // comentarios de primer nivel y respuestas
@@ -55,7 +56,8 @@ model Comment {
   content       String
   like_count    Int?            @default(0)
   created_at    DateTime?       @default(now()) @db.Timestamp(6)
-  deleted       Boolean          @default(false) 
+  deleted       Boolean         @default(false) 
+  updated_at    DateTime?       @updatedAt
 
   post          Post            @relation(fields: [post_id], references: [id], onDelete: Cascade)
   user          User            @relation(fields: [user_id], references: [id], onDelete: Cascade)

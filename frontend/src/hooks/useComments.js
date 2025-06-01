@@ -3,6 +3,27 @@ import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { deleteCommentApi, createCommentApi } from '@/lib/api/posts';
 //  Función recursiva
+function updateCommentInTree(comments, updated) {
+  return comments.map(comment => {
+    if (comment.id === updated.id) {
+      return {
+        ...comment,
+        ...updated,
+        replies: comment.replies ?? [],
+      };
+    }
+
+    if (comment.replies && comment.replies.length > 0) {
+      return {
+        ...comment,
+        replies: updateCommentInTree(comment.replies, updated),
+      };
+    }
+
+    return comment;
+  });
+}
+
 const insertReplyInTree = (comments, parentId, newComment) => {
   return comments.map(c => {
     if (c.id === parentId) {
@@ -24,7 +45,7 @@ const markCommentAsDeleted = (comments, commentId) => {
   });
 };
 
-export function useComments(postId, initialComments = []) {
+export function useComments(postId, initialComments = [], currentUser) {
   const [comments, setComments] = useState(initialComments);
   const [unlockAt, setUnlockAt] = useState(0);
   const [secondsLeft, setSecondsLeft] = useState(0);
@@ -65,7 +86,7 @@ export function useComments(postId, initialComments = []) {
       id: `temp-${Date.now()}`,
       parentId,
       content,
-      user: {},
+      user: currentUser,
       replies: [],
       created_at: new Date().toISOString(),
       post_id: postId,
@@ -105,3 +126,5 @@ export function useComments(postId, initialComments = []) {
 
   return { comments, addComment, deleteComment, inCooldown, secondsLeft, countAll };
 }
+
+export { updateCommentInTree };
